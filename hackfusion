@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackFusion 2K26 | Student Handbook</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        heading: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        fusion: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                            950: '#0f172a',
+                        },
+                        neon: {
+                            400: '#22d3ee', // Cyan
+                            500: '#06b6d4',
+                            purple: '#a855f7',
+                        },
+                        dark: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'fade-in-up': 'fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'border-glow': 'borderGlow 3s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(40px, -60px) scale(1.1)' },
+                            '66%': { transform: 'translate(-30px, 30px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(50px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        borderGlow: {
+                            '0%': { borderColor: 'rgba(34, 211, 238, 0.2)', boxShadow: '0 0 10px rgba(34, 211, 238, 0.1)' },
+                            '100%': { borderColor: 'rgba(168, 85, 247, 0.6)', boxShadow: '0 0 25px rgba(168, 85, 247, 0.3)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #040814; 
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        /* Premium Glassmorphism */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(34, 211, 238, 0.3); /* Neon Cyan hover */
+            box-shadow: 0 15px 40px -10px rgba(34, 211, 238, 0.15);
+        }
+
+        /* Scroll Reveal Dynamics */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        
+        /* Gradients */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(135deg, #22d3ee 0%, #a855f7 100%);
+        }
+        .text-gradient-gold {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(135deg, #fcd34d 0%, #fb923c 100%);
+        }
+
+        /* Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            width: 0%; height: 3px;
+            background: linear-gradient(to right, #22d3ee, #a855f7);
+            z-index: 9999;
+        }
+        
+        /* Grid background */
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* Number Badges */
+        .section-number {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(168, 85, 247, 0.2));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #e2e8f0;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased relative selection:bg-neon-purple selection:text-white">
+
+    <div id="scroll-progress"></div>
+
+    <!-- Background Grid & Orbs -->
+    <div class="fixed inset-0 pointer-events-none z-0 bg-grid"></div>
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-fusion-600/20 rounded-full mix-blend-screen filter blur-[120px] animate-blob"></div>
+        <div class="absolute top-[40%] right-[-10%] w-[600px] h-[600px] bg-neon-purple/10 rounded-full mix-blend-screen filter blur-[150px] animate-blob" style="animation-delay: 2s"></div>
+        <div class="absolute bottom-[-10%] left-[20%] w-[400px] h-[400px] bg-neon-400/10 rounded-full mix-blend-screen filter blur-[100px] animate-blob" style="animation-delay: 4s"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b-0 py-4 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-fusion-500 to-neon-purple flex items-center justify-center text-white shadow-lg shadow-neon-purple/20">
+                    <i class="ph-bold ph-cpu text-xl"></i>
+                </div>
+                <div class="font-heading font-bold text-xl tracking-wide hidden sm:block">HACKFUSION <span class="text-neon-400">2K26</span></div>
+            </div>
+            <div class="flex gap-6 items-center">
+                <a href="#schedule" class="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden md:block">Schedule</a>
+                <a href="#tracks" class="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden md:block">Domains</a>
+                <a href="#rules" class="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden md:block">Rules</a>
+                <a href="#faq" class="text-sm font-medium text-slate-300 hover:text-white transition-colors hidden md:block">FAQ</a>
+                <div class="px-4 py-1.5 rounded-full bg-fusion-900/50 border border-fusion-400/30 text-xs font-semibold text-fusion-100 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-neon-400 animate-pulse"></span> Live Event
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 max-w-6xl mx-auto px-6 pt-32 pb-24 space-y-32">
+
+        <!-- Hero Section -->
+        <section class="min-h-[85vh] flex flex-col justify-center items-center text-center animate-fade-in-up">
+            <div class="flex flex-wrap justify-center gap-3 mb-8">
+                <div class="px-4 py-1.5 rounded-full glass-panel border-white/10 text-slate-300 text-sm font-medium flex items-center gap-2">
+                    <i class="ph-fill ph-student text-fusion-400"></i> Dept of ECE, JNTUH
+                </div>
+                <div class="px-4 py-1.5 rounded-full glass-panel border-white/10 text-slate-300 text-sm font-medium flex items-center gap-2">
+                    <i class="ph-fill ph-buildings text-neon-purple"></i> Brainovision Solutions
+                </div>
+            </div>
+            
+            <h1 class="font-heading text-6xl md:text-8xl font-extrabold tracking-tight mb-6 leading-tight uppercase">
+                HackFusion <br class="hidden md:block"/>
+                <span class="text-gradient">2K26</span>
+            </h1>
+            
+            <p class="text-lg md:text-2xl text-slate-400 max-w-3xl mb-12 leading-relaxed font-light">
+                An international-level 2-day hackathon and expo. Your official guide to innovating, building, and presenting scalable real-world solutions.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center gap-6 animate-float">
+                <a href="#overview" class="px-8 py-4 rounded-xl bg-white text-dark-950 hover:bg-slate-200 font-bold text-lg transition-all hover:scale-105 flex items-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                    Explore Handbook <i class="ph-bold ph-arrow-down"></i>
+                </a>
+                
+                <div class="px-8 py-4 rounded-xl glass-card border border-neon-400/30 flex items-center gap-4 text-left">
+                    <i class="ph-fill ph-calendar-blank text-3xl text-neon-400"></i>
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Event Dates</div>
+                        <div class="font-bold text-lg text-white">April 3 - April 4</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prize Pool Highlight -->
+        <section class="reveal">
+            <div class="glass-card rounded-3xl p-8 md:p-12 border-2 animate-border-glow relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-yellow-500/10 rounded-full blur-[50px]"></div>
+                <div>
+                    <div class="section-number border-yellow-500/30 bg-yellow-500/10 text-yellow-400 mb-4">12</div>
+                    <h2 class="font-heading text-4xl font-bold mb-2">Prizes & Recognition</h2>
+                    <p class="text-slate-400 max-w-xl">Exceptional solutions deserve exceptional rewards. Compete for the grand prize pool, secure merit certificates, and unlock future networking and internship opportunities.</p>
+                </div>
+                <div class="text-center md:text-right shrink-0">
+                    <div class="text-sm text-yellow-500 font-bold tracking-widest uppercase mb-2">Cash Prize Pool</div>
+                    <div class="font-heading text-5xl md:text-7xl font-extrabold text-gradient-gold drop-shadow-lg">₹50,000+</div>
+                    <div class="mt-4 flex gap-3 justify-center md:justify-end">
+                        <span class="px-3 py-1 bg-white/5 rounded text-xs text-slate-300 border border-white/10">Participation Certs</span>
+                        <span class="px-3 py-1 bg-white/5 rounded text-xs text-slate-300 border border-white/10">Merit Certs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1. Overview & 4. Objective -->
+        <section id="overview" class="grid lg:grid-cols-2 gap-8 reveal">
+            <div class="glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden">
+                <div class="section-number">1</div>
+                <h2 class="font-heading text-3xl font-bold mb-6">Welcome & Overview</h2>
+                <div class="space-y-4 text-slate-300 leading-relaxed">
+                    <p>Welcome to <strong>HackFusion 2K26</strong>, organized by the Department of ECE, JNTUH in collaboration with Brainovision Solutions India Pvt. Ltd.</p>
+                    <p>This handbook outlines everything you need to know to participate effectively, from event flow and expectations to rules, evaluations, and final submissions.</p>
+                    <p>HackFusion is designed to foster innovation, real-world problem solving, and collaboration. Participants are expected to build practical, scalable solutions within the given timeline and present them professionally.</p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden">
+                <div class="section-number">4</div>
+                <h2 class="font-heading text-3xl font-bold mb-6">Objective & Focus</h2>
+                <p class="text-slate-300 leading-relaxed mb-6">HackFusion 2K26 focuses on building real-world, innovation-driven solutions across multiple technology domains.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                        <i class="ph-fill ph-crosshair text-neon-400 text-xl"></i>
+                        <span class="text-sm text-slate-200">Understand and define a problem clearly</span>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                        <i class="ph-fill ph-bezier-curve text-neon-400 text-xl"></i>
+                        <span class="text-sm text-slate-200">Design a feasible and scalable solution</span>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                        <i class="ph-fill ph-hammer text-neon-purple text-xl"></i>
+                        <span class="text-sm text-slate-200">Build a prototype within the timeline</span>
+                    </div>
+                    <div class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                        <i class="ph-fill ph-presentation-chart text-neon-purple text-xl"></i>
+                        <span class="text-sm text-slate-200">Demonstrate & present clearly to judges</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Schedule and Milestones (Detailed 2-Day View) -->
+        <section id="schedule" class="reveal">
+            <div class="text-center mb-12">
+                <div class="section-number mx-auto mb-4">2</div>
+                <h2 class="font-heading text-4xl font-bold mb-4">Schedule & Milestones</h2>
+                <p class="text-slate-400">Participants must be present during all evaluation rounds and final presentations.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Day 1 -->
+                <div class="glass-card rounded-3xl p-8 border-t-4 border-t-neon-400 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 opacity-10"><h3 class="text-9xl font-bold">01</h3></div>
+                    <h3 class="font-heading text-3xl font-bold text-white mb-2 relative z-10">Day 1</h3>
+                    <p class="text-neon-400 font-semibold mb-8 relative z-10">April 3</p>
+                    
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+                        
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-neon-400 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_10px_rgba(34,211,238,0.5)] relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl">
+                                <time class="text-xs text-neon-400 font-bold tracking-wide uppercase">08:00 AM - 11:00 AM</time>
+                                <div class="font-bold text-slate-100 mt-1 text-sm">Registration & Check-in</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-slate-600 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl">
+                                <time class="text-xs text-slate-400 font-bold tracking-wide uppercase">11:00 AM - 01:00 PM</time>
+                                <div class="font-bold text-slate-100 mt-1 text-sm">Domain Allocation & Team Setup</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-slate-600 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl border border-white/5 opacity-70">
+                                <time class="text-xs text-slate-400 font-bold tracking-wide uppercase">01:00 PM - 02:00 PM</time>
+                                <div class="font-bold text-slate-100 mt-1 text-sm"><i class="ph ph-hamburger"></i> Lunch Break</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-fusion-400 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl bg-fusion-900/20">
+                                <time class="text-xs text-fusion-400 font-bold tracking-wide uppercase">02:00 PM - 04:30 PM</time>
+                                <div class="font-bold text-slate-100 mt-1 text-sm">Ideation, Dev & Expo Setup</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-neon-purple bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_10px_rgba(168,85,247,0.5)] relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl border-neon-purple/30 bg-neon-purple/10">
+                                <time class="text-xs text-neon-purple font-bold tracking-wide uppercase">04:30 PM Onwards</time>
+                                <div class="font-bold text-white mt-1 text-sm">Continuous Development Phase</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 2 -->
+                <div class="glass-card rounded-3xl p-8 border-t-4 border-t-neon-purple relative overflow-hidden reveal delay-100">
+                    <div class="absolute right-0 top-0 opacity-10"><h3 class="text-9xl font-bold">02</h3></div>
+                    <h3 class="font-heading text-3xl font-bold text-white mb-2 relative z-10">Day 2</h3>
+                    <p class="text-neon-purple font-semibold mb-8 relative z-10">April 4</p>
+                    
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+                        
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-slate-600 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl">
+                                <time class="text-xs text-slate-400 font-bold tracking-wide uppercase">08:00 AM - 09:00 AM</time>
+                                <div class="font-bold text-slate-100 mt-1 text-sm">Expo Display</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-fusion-400 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl border border-fusion-500/30">
+                                <time class="text-xs text-fusion-400 font-bold tracking-wide uppercase">09:15 AM - 12:30 PM</time>
+                                <div class="font-bold text-white mt-1 text-sm">Evaluation Rounds</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-slate-600 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl border border-white/5 opacity-70">
+                                <time class="text-xs text-slate-400 font-bold tracking-wide uppercase">12:30 PM - 01:30 PM</time>
+                                <div class="font-bold text-slate-100 mt-1 text-sm"><i class="ph ph-hamburger"></i> Lunch Break</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-neon-purple bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_10px_rgba(168,85,247,0.5)] relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl bg-neon-purple/10 border-neon-purple/30">
+                                <time class="text-xs text-neon-purple font-bold tracking-wide uppercase">01:30 PM - 03:00 PM</time>
+                                <div class="font-bold text-white mt-1 text-sm">Final Presentations (Top Teams)</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-slate-600 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl">
+                                <time class="text-xs text-slate-400 font-bold tracking-wide uppercase">03:00 PM - 05:00 PM</time>
+                                <div class="font-bold text-slate-100 mt-1 text-sm">Final Validation by Jury</div>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-yellow-400 bg-dark-900 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_15px_rgba(250,204,21,0.6)] relative z-10"></div>
+                            <div class="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-panel p-4 rounded-xl border-yellow-500/30">
+                                <time class="text-xs text-yellow-400 font-bold tracking-wide uppercase">05:00 PM - 06:00 PM</time>
+                                <div class="font-bold text-white mt-1 text-sm">Closing & Prize Distribution</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Tracks & 6. What You Can Build -->
+        <section id="tracks" class="reveal">
+            <div class="flex flex-col md:flex-row gap-4 justify-between items-end mb-10 border-b border-white/10 pb-6">
+                <div>
+                    <div class="section-number">5 & 6</div>
+                    <h2 class="font-heading text-4xl font-bold">Domains & Project Scope</h2>
+                </div>
+                <p class="text-slate-400 max-w-sm text-sm text-right hidden md:block">Teams must stick to one finalized problem statement throughout the event. Focus on practicality and innovation.</p>
+            </div>
+
+            <!-- The Domains Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+                <!-- AI/ML -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-brain"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">AI & Machine Learning</h3>
+                </div>
+                <!-- IoT -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-teal-500/20 text-teal-400 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-plugs-connected"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Internet of Things (IoT)</h3>
+                </div>
+                <!-- Drone -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-airplane-tilt"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Drone Technologies</h3>
+                </div>
+                <!-- Vibe Coding -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-neon-purple/20 text-neon-purple flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-code-block"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Vibe Coding</h3>
+                    <p class="text-[10px] text-slate-400 mt-1 uppercase">Software/Web/App</p>
+                </div>
+                <!-- Open Innovation -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col items-center text-center group">
+                    <div class="w-14 h-14 rounded-full bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="ph-fill ph-lightbulb-filament"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-sm">Open Innovation</h3>
+                    <p class="text-[10px] text-slate-400 mt-1 uppercase">Any Tech Idea</p>
+                </div>
+            </div>
+
+            <!-- What to build -->
+            <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-neon-400">
+                <h3 class="text-lg font-bold text-white mb-4">What You Can Build:</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="px-4 py-2 bg-white/5 rounded-lg text-sm text-slate-300 border border-white/10">AI-powered applications and tools</span>
+                    <span class="px-4 py-2 bg-white/5 rounded-lg text-sm text-slate-300 border border-white/10">Smart IoT systems and automation</span>
+                    <span class="px-4 py-2 bg-white/5 rounded-lg text-sm text-slate-300 border border-white/10">Web or mobile applications</span>
+                    <span class="px-4 py-2 bg-white/5 rounded-lg text-sm text-slate-300 border border-white/10">Hardware-integrated systems</span>
+                    <span class="px-4 py-2 bg-white/5 rounded-lg text-sm text-slate-300 border border-white/10">Real-time data-driven platforms</span>
+                    <span class="px-4 py-2 bg-white/5 rounded-lg text-sm text-slate-300 border border-white/10">Industry solutions (health, edu, finance)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluation (7, 20, 21, 22) -->
+        <section class="reveal">
+            <div class="text-center mb-10">
+                <div class="section-number mx-auto mb-4">7 & 20</div>
+                <h2 class="font-heading text-4xl font-bold mb-4">Evaluation & Judging</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Evaluation Criteria -->
+                <div class="glass-card p-8 rounded-3xl lg:col-span-1">
+                    <h3 class="font-bold text-xl mb-6 text-neon-400 flex items-center gap-2"><i class="ph-fill ph-scales"></i> Core Criteria</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center justify-between border-b border-white/10 pb-2">
+                            <span class="text-slate-300">Innovation & Originality</span>
+                            <i class="ph-fill ph-star text-yellow-500"></i>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/10 pb-2">
+                            <span class="text-slate-300">Problem Relevance</span>
+                            <i class="ph-fill ph-target text-red-400"></i>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/10 pb-2">
+                            <span class="text-slate-300">Technical Implementation</span>
+                            <i class="ph-fill ph-code text-blue-400"></i>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/10 pb-2">
+                            <span class="text-slate-300">Feasibility & Scalability</span>
+                            <i class="ph-fill ph-chart-line-up text-green-400"></i>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/10 pb-2">
+                            <span class="text-slate-300">User Impact</span>
+                            <i class="ph-fill ph-users text-purple-400"></i>
+                        </li>
+                        <li class="flex items-center justify-between pb-2">
+                            <span class="text-slate-300">Presentation Quality</span>
+                            <i class="ph-fill ph-microphone-stage text-pink-400"></i>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Jury Questions -->
+                <div class="glass-card p-8 rounded-3xl lg:col-span-2">
+                    <h3 class="font-bold text-xl mb-6 text-neon-purple flex items-center gap-2"><i class="ph-fill ph-question"></i> Jury Framework</h3>
+                    <div class="grid sm:grid-cols-3 gap-6">
+                        <div class="bg-dark-900/50 p-5 rounded-2xl border border-white/5">
+                            <h4 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">1. Idea Eval</h4>
+                            <ul class="text-sm text-slate-400 space-y-2 list-disc pl-4">
+                                <li>What problem are you solving?</li>
+                                <li>Why is it important?</li>
+                                <li>Who are the users?</li>
+                            </ul>
+                        </div>
+                        <div class="bg-dark-900/50 p-5 rounded-2xl border border-white/5">
+                            <h4 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">2. Prototype</h4>
+                            <ul class="text-sm text-slate-400 space-y-2 list-disc pl-4">
+                                <li>Demonstrate your solution</li>
+                                <li>Explain technical approach</li>
+                                <li>What makes it unique?</li>
+                            </ul>
+                        </div>
+                        <div class="bg-dark-900/50 p-5 rounded-2xl border border-white/5">
+                            <h4 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">3. Final Eval</h4>
+                            <ul class="text-sm text-slate-400 space-y-2 list-disc pl-4">
+                                <li>Scalability & real-world impact</li>
+                                <li>Future scope</li>
+                                <li class="text-neon-400 mt-2 list-none text-xs font-semibold">3-Min Pitch: Problem → Solution → Demo → Impact</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Grid: Guidelines, Rules, Submissions, Logistics -->
+        <section id="rules" class="reveal">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 9. Submission Guidelines -->
+                <div class="glass-card p-6 rounded-2xl lg:row-span-2 flex flex-col">
+                    <div class="section-number scale-75 origin-top-left mb-2">9</div>
+                    <h3 class="text-xl font-bold mb-4">Submission Stages</h3>
+                    
+                    <div class="flex-grow space-y-6">
+                        <div class="border-l-2 border-neon-400 pl-4">
+                            <h4 class="font-semibold text-white text-sm mb-2">1. Evaluation Round</h4>
+                            <ul class="text-sm text-slate-400 list-disc pl-4 space-y-1">
+                                <li>Problem understanding</li>
+                                <li>Proposed solution</li>
+                                <li>Initial progress</li>
+                            </ul>
+                        </div>
+                        <div class="border-l-2 border-neon-purple pl-4">
+                            <h4 class="font-semibold text-white text-sm mb-2">2. Final Presentation</h4>
+                            <ul class="text-sm text-slate-400 list-disc pl-4 space-y-1">
+                                <li>Working prototype/demo</li>
+                                <li>Explanation of solution</li>
+                                <li>Technical implementation</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-xl border border-white/10 mt-auto">
+                            <p class="text-xs text-slate-300"><strong>Additional Deliverables (if asked):</strong> Code repository, Presentation slides, Demo video. All submissions must meet the given timeline.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 18/19. Rules & Guidelines -->
+                <div class="glass-card p-6 rounded-2xl lg:col-span-2 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-fusion-500/10 rounded-full blur-[40px]"></div>
+                    <div class="section-number scale-75 origin-top-left mb-2">18 & 19</div>
+                    <h3 class="text-xl font-bold mb-4">Rules & Guidelines</h3>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <div>
+                            <h4 class="text-sm font-bold text-fusion-400 mb-2 uppercase"><i class="ph-fill ph-users-three"></i> Team</h4>
+                            <ul class="text-sm text-slate-300 space-y-1">
+                                <li>• Work collaboratively</li>
+                                <li>• Only one project per team</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-neon-purple mb-2 uppercase"><i class="ph-fill ph-code"></i> Tech</h4>
+                            <ul class="text-sm text-slate-300 space-y-1">
+                                <li>• Any language/framework</li>
+                                <li>• AI tools, APIs, Cloud allowed</li>
+                                <li><strong class="text-red-400">• NO pre-built solutions</strong></li>
+                                <li><strong class="text-red-400">• NO plagiarism</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-green-400 mb-2 uppercase"><i class="ph-fill ph-shield-check"></i> Ethics</h4>
+                            <ul class="text-sm text-slate-300 space-y-1">
+                                <li>• No harmful/unethical solutions</li>
+                                <li>• Respect data privacy</li>
+                                <li>• Judges decisions are final</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Venue & 8. Resources -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center gap-3 mb-4 border-b border-white/10 pb-2">
+                        <i class="ph-fill ph-map-pin text-2xl text-yellow-400"></i>
+                        <h3 class="font-bold">Venue & Resources</h3>
+                    </div>
+                    <p class="text-sm text-slate-300 mb-3"><strong>Inside JNTUH Campus:</strong> Reg. Desk, Working Zones/Labs, Expo Area, Evaluation Zones, Food/Rest Areas, Support Desk.</p>
+                    <p class="text-sm text-slate-400"><strong>Provided:</strong> Internet, Power, Workspace.<br><strong>Bring:</strong> Laptops, Hardware, Tools/Accounts.</p>
+                </div>
+
+                <!-- 10, 11, 14. Logistics -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center gap-3 mb-4 border-b border-white/10 pb-2">
+                        <i class="ph-fill ph-info text-2xl text-blue-400"></i>
+                        <h3 class="font-bold">Logistics & Conduct</h3>
+                    </div>
+                    <ul class="text-sm text-slate-300 space-y-2">
+                        <li><strong>Food:</strong> Provided. Return to evals on time.</li>
+                        <li><strong>Movement:</strong> Must remain in venue. Exceptions only by permission.</li>
+                        <li><strong>Conduct:</strong> Maintain discipline, respect everyone. Misconduct = Disqualification.</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- 16. FAQ Section -->
+        <section id="faq" class="max-w-4xl mx-auto reveal">
+            <h2 class="font-heading text-3xl font-bold mb-8 text-center flex items-center justify-center gap-3">
+                <i class="ph-fill ph-question text-neon-400"></i> Frequently Asked Questions
+            </h2>
+            
+            <div class="space-y-3">
+                <div class="glass-card rounded-xl overflow-hidden faq-item border-l-2 border-l-transparent hover:border-l-neon-400">
+                    <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center focus:outline-none">
+                        Who can participate? Can I participate alone?
+                        <i class="ph-bold ph-caret-down transition-transform duration-300 text-slate-400 icon"></i>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out content bg-black/30">
+                        <div class="px-6 pb-4 text-slate-400 text-sm border-t border-white/5 pt-3">
+                            Only registered participants can join. No, you cannot participate alone; team participation is strictly required. Also, you cannot change your team later.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-xl overflow-hidden faq-item border-l-2 border-l-transparent hover:border-l-neon-400">
+                    <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center focus:outline-none">
+                        Are AI tools, external APIs, and libraries allowed?
+                        <i class="ph-bold ph-caret-down transition-transform duration-300 text-slate-400 icon"></i>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out content bg-black/30">
+                        <div class="px-6 pb-4 text-slate-400 text-sm border-t border-white/5 pt-3">
+                            Yes, AI tools, external APIs, and libraries are allowed and encouraged. However, fully pre-built projects are strictly prohibited.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-xl overflow-hidden faq-item border-l-2 border-l-transparent hover:border-l-neon-400">
+                    <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center focus:outline-none">
+                        Is attendance mandatory? Can I leave the venue?
+                        <i class="ph-bold ph-caret-down transition-transform duration-300 text-slate-400 icon"></i>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out content bg-black/30">
+                        <div class="px-6 pb-4 text-slate-400 text-sm border-t border-white/5 pt-3">
+                            Yes, attendance is mandatory throughout the hackathon. You cannot leave the venue during the event unless explicit permission is granted by the organizers for emergencies.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 13 & 15 & 23. Footer/Contacts -->
+        <footer class="mt-20 pt-10 border-t border-white/10 reveal">
+            <div class="grid md:grid-cols-2 gap-8 mb-10 text-center md:text-left">
+                <div>
+                    <h3 class="font-bold text-white mb-3">Support & Help</h3>
+                    <p class="text-sm text-slate-400"><strong>Technical Issues:</strong> Contact Tech Support Team immediately.</p>
+                    <p class="text-sm text-slate-400"><strong>Event/Logistics:</strong> Contact Organizers at the help desk.</p>
+                </div>
+                <div class="md:text-right">
+                    <h3 class="font-bold text-white mb-3">Post-Event Information</h3>
+                    <p class="text-sm text-slate-400">Results announced at closing ceremony. Certificates will be distributed. Keep an eye out for internships & networking opportunities!</p>
+                </div>
+            </div>
+
+            <div class="text-center bg-white/5 p-6 rounded-2xl border border-white/10 mb-8">
+                <i class="ph-fill ph-warning-circle text-2xl text-yellow-500 mb-2"></i>
+                <h3 class="font-bold text-white">Important Note</h3>
+                <p class="text-sm text-slate-400">Follow all instructions provided by the organizing team during the event.</p>
+            </div>
+
+            <div class="text-center text-slate-500 text-sm font-medium tracking-widest uppercase">
+                End of HackFusion 2K26 Handbook
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+            
+            // Navbar Glass Effect
+            const navbar = document.getElementById("navbar");
+            if (winScroll > 50) {
+                navbar.classList.add("bg-dark-950/80", "shadow-lg");
+            } else {
+                navbar.classList.remove("bg-dark-950/80", "shadow-lg");
+            }
+        };
+
+        // Scroll Reveal Animation
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // Interactive Accordion for FAQ
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const button = item.querySelector('button');
+            const content = item.querySelector('.content');
+            const icon = item.querySelector('.icon');
+            
+            button.addEventListener('click', () => {
+                const isOpen = content.style.maxHeight;
+                
+                // Close all others
+                document.querySelectorAll('.faq-item .content').forEach(c => c.style.maxHeight = null);
+                document.querySelectorAll('.faq-item .icon').forEach(i => i.style.transform = 'rotate(0deg)');
+                
+                // Open if closed
+                if (!isOpen) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
